@@ -1,0 +1,45 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  DOCKER_IMAGE: fastapi-ci-cd-app:latest
+  CONTAINER_NAME: fastapi-app-container
+
+# مرحله ساخت Docker Image
+build:
+  stage: build
+  script:
+    - echo "Building Docker Image..."
+    - docker build -t $DOCKER_IMAGE .
+  artifacts:
+    paths:
+      - Dockerfile
+  only:
+    - main
+
+# مرحله تست
+test:
+  stage: test
+  script:
+    - echo "Setting up virtual environment..."
+    - python3 -m venv venv             # ساخت محیط مجازی
+    - source venv/bin/activate         # فعال کردن محیط مجازی
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - echo "Running tests..."
+    - venv/bin/pytest --rootdir=.                  # اشاره به مسیر pytest در محیط مجازی
+  only:
+    - main
+
+
+# مرحله استقرار (Deploy)
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying Application..."
+    - docker run -d --name $CONTAINER_NAME -p 8000:8000 $DOCKER_IMAGE
+    - echo "Application deployed successfully and is running on http://localhost:8000"
+  only:
+    - main
