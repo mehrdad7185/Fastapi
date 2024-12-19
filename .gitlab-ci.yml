@@ -37,6 +37,8 @@ test:
 deploy:
   stage: deploy
   script:
+    - echo "Stopping and removing any existing container..."
+    - docker rm -f $CONTAINER_NAME || true
     - echo "Deploying Application..."
     - docker run -d --name $CONTAINER_NAME -p 8000:8000 $DOCKER_IMAGE
     - echo "Application deployed successfully and is running on http://localhost:8000"
