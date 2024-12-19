@@ -1,6 +1,8 @@
-For setup docker-hub push . add this code to youre pipeline 
+For setup docker-hub push 
+add this code to youre pipeline (.gitlab-ci.yml)
 
-...
+
+```yaml
 docker-hub-push:
   stage: push
   script:
@@ -12,4 +14,3 @@ docker-hub-push:
     - docker push $DOCKER_USERNAME/fastapi-app:latest
   only:
     - main
-...    
