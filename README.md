@@ -1,6 +1,7 @@
 For setup docker-hub push 
 add this code to youre pipeline (.gitlab-ci.yml)
-you have to add the variables DOCKER_USERNAME,DOCKER_PASSWORD in youre gitlab with its value
+you have to add the variables DOCKER_USERNAME , DOCKER_PASSWORD in youre gitlab with its value
+also add the stage -push on top of youre code
 
 
 ```yaml
